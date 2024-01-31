@@ -14,7 +14,11 @@
 	<name>contract-microservice</name>
 	<description>Contrato del Cliente</description>
 	<properties>
-		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+		<spring-cloud.version>2023.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
