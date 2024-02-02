@@ -13,6 +13,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services: # Define los servicios que se ejecutarán en paralelo con el flujo de trabajo
+      mysql:
+        image: mysql:latest # Versión de la imagen de MySQL a utilizar
+        env:
+          MYSQL_ROOT_PASSWORD: 1234
+          MYSQL_DATABASE: testbanco
+          MYSQL_USER: juan
+          MYSQL_PASSWORD: 1234
+        ports:
+          - 3306:3306
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -21,6 +32,24 @@ jobs:
         with:
           java-version: '17'
 
+      - uses: actions/checkout@v3 # Acción para clonar el repositorio en el runner
+      - name: Set up JDK 17 # Configura el JDK 17 en el runner
+        uses: actions/setup-java@v3 # Acción para configurar el JDK en el runner
+        with:   # Parámetros de la acción
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Install dockerize # Instala dockerize en el runner
+        run: |
+          wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
+          tar -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
+          sudo mv dockerize /usr/local/bin
+      - name: Wait for MySQL to be ready # Espera a que MySQL esté listo
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y mysql-client
+          dockerize -wait tcp://localhost:3306 -timeout 1m
+          
       - name: Build with Maven
         run: mvn clean install
 
@@ -59,4 +88,3 @@ jobs:
           app-name: 'actions-spring-app'
           slot-name: 'Production'
           package: '*.jar'
-          
