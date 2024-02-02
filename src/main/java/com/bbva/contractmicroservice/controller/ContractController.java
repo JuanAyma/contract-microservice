@@ -8,7 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/contrato")
@@ -46,6 +52,40 @@ public class ContractController {
         return contractService.save(contract);
     }
 
+    @PostMapping("/open-term-deposit")
+    public ResponseEntity<Object> openTermDeposit(@RequestBody ContractDTO contractDTO) {
+        try {
+            Contract contract = contractService.save(contractDTO);
+
+            BigDecimal inversion = contractDTO.getAccount().getSaldo();
+            BigDecimal ganancia = contractDTO.getGanancia();
+            BigDecimal totalRecibir = inversion.add(ganancia);
+
+            // Crear el JSON de respuesta para apertura exitosa
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "Apertura de deposito a plazo exitosa");
+            successResponse.put("cuenta", Map.of(
+                    //"id", contract.getIdContrato(),
+                    "fechaDeposito", LocalDate.now(),
+                    "hora", LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")),
+                    "inversion", inversion,
+                    "gananciaTotal", ganancia,
+                    "TREA", contract.getInterestRate().getTasaInteres(),
+                    "TotalRecibir", totalRecibir,
+                    "cuentaCorriente", contractDTO.getCuentaDepositoInte()
+            ));
+
+            return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            // Crear el JSON de respuesta para apertura erronea
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "No se pudo aperturar el deposito a plazo.");
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
     @DeleteMapping("/eliminar-contrato/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void eliminarContrato(@PathVariable Long id) {
