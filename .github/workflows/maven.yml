@@ -1,19 +1,25 @@
+#Nombre del flujo de trabajo
 name: Build and Test Java Spring Boot Application
-
+# Este flujo de trabajo se activa en push y pull request events
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+# Un flujo de trabajo contiene una o más tareas llamadas 'jobs'
+# Se ejecutan en paralelo y por defecto, si una de las tareas falla, el flujo de trabajo se considera fallido.
 jobs:
+  # El flujo de trabajo se compone de dos trabajos: build y test
   build:
+    #runs-on indica el sistema operativo en el que se ejecutará el flujo de trabajo
+    runs-on: ubuntu-latest # windows-latest, macos-latest
 
-    runs-on: ubuntu-latest
+    # steps contiene una lista de tareas que se ejecutan en paralelo
+    # Un job tiene uno o más steps
 
-    services:
+    services: # Define los servicios que se ejecutarán en paralelo con el flujo de trabajo
       mysql:
-        image: mysql:latest
+        image: mysql:latest # Versión de la imagen de MySQL a utilizar
         env:
           MYSQL_ROOT_PASSWORD: 1234
           MYSQL_DATABASE: testbanco
@@ -22,31 +28,31 @@ jobs:
         ports:
           - 3306:3306
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
+    steps: #Actions o shell scripts
+      - uses: actions/checkout@v3 # Acción para clonar el repositorio en el runner
+      - name: Set up JDK 17 # Configura el JDK 17 en el runner
+        uses: actions/setup-java@v3 # Acción para configurar el JDK en el runner
+        with:   # Parámetros de la acción
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Install dockerize
+      - name: Install dockerize # Instala dockerize en el runner
         run: |
           wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
           tar -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
           sudo mv dockerize /usr/local/bin
-      - name: Wait for MySQL to be ready
+      - name: Wait for MySQL to be ready # Espera a que MySQL esté listo
         run: |
           sudo apt-get update -y
           sudo apt-get install -y mysql-client
           dockerize -wait tcp://localhost:3306 -timeout 1m
-      - name: Build with Maven
+      - name: Build with Maven # Ejecuta el comando de construcción del proyecto con Maven
         run: mvn clean verify #mvn -B package --file pom.xml
-      - name: Test
+      - name: Test with Maven # Ejecuta el comando de pruebas del proyecto con Maven
         run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
-      - name: Report
+      - name: Report Test Results # Reporta los resultados de las pruebas
         uses: dorny/test-reporter@v1
-        if: always()
+        if: always() # Siempre ejecuta la acción
         with:
           name: Maven Tests
           path: target/surefire-reports/*.xml
