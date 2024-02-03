@@ -46,10 +46,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
 		<!--Dependencia para covertura de codigo-->
 		<dependency>
 			<groupId>org.jacoco</groupId>
@@ -70,30 +70,30 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
-		<!--Dependencia 1 Spring Eureka Client-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<!--Config Client parte 1 -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency>
+<!--		&lt;!&ndash;Dependencia 1 Spring Eureka Client&ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash;Config Client parte 1 &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-config</artifactId>-->
+<!--		</dependency>-->
 
     </dependencies>
-	<!-- Eurka Cliente y Config Client parte 2 -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+<!--	&lt;!&ndash; Eurka Cliente y Config Client parte 2 &ndash;&gt;-->
+<!--	<dependencyManagement>-->
+<!--		<dependencies>-->
+<!--			<dependency>-->
+<!--				<groupId>org.springframework.cloud</groupId>-->
+<!--				<artifactId>spring-cloud-dependencies</artifactId>-->
+<!--				<version>${spring-cloud.version}</version>-->
+<!--				<type>pom</type>-->
+<!--				<scope>import</scope>-->
+<!--			</dependency>-->
+<!--		</dependencies>-->
+<!--	</dependencyManagement>-->
 
 	<build>
 		<plugins>
@@ -129,7 +129,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.1</version>
+					<version>3.11.0</version><!-- Usa la última versión del plugin -->
 					<configuration>
 						<!-- Cambiar la version de java -->
 						<source>17</source> <!-- depending on your project -->
