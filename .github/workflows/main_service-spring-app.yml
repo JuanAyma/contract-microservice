@@ -46,6 +46,7 @@ jobs:
         with:
           name: java-app
 
+      
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -60,3 +61,4 @@ jobs:
           app-name: 'service-spring-app'
           slot-name: 'Production'
           package: '*.jar'
+
