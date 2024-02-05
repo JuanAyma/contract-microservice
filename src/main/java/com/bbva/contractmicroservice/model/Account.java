@@ -9,10 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Table(name="Cuenta")
 @Entity
 public class Account {
@@ -23,4 +20,45 @@ public class Account {
     private LocalDate fechaApertura;
     private String estadoCuenta;
 
+    public Account() {
+    }
+
+    public Account(Long idCuenta, BigDecimal saldo, LocalDate fechaApertura, String estadoCuenta) {
+        this.idCuenta = idCuenta;
+        this.saldo = saldo;
+        this.fechaApertura = fechaApertura;
+        this.estadoCuenta = estadoCuenta;
+    }
+
+    public Long getIdCuenta() {
+        return idCuenta;
+    }
+
+    public void setIdCuenta(Long idCuenta) {
+        this.idCuenta = idCuenta;
+    }
+
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
+    public LocalDate getFechaApertura() {
+        return fechaApertura;
+    }
+
+    public void setFechaApertura(LocalDate fechaApertura) {
+        this.fechaApertura = fechaApertura;
+    }
+
+    public String getEstadoCuenta() {
+        return estadoCuenta;
+    }
+
+    public void setEstadoCuenta(String estadoCuenta) {
+        this.estadoCuenta = estadoCuenta;
+    }
 }
