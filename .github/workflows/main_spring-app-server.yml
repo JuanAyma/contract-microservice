@@ -49,6 +49,18 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZUREAPPSERVICE_CREDENTIALS_D8C46F1F9A714BA2A9F4694A3AD31137 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_16C92900893642FDA055944F5F2D0CF9 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_58625003171B4200AFCE878683D768B0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D0D3E2887CF24656BF716CEB35AD58E8 }}
+          
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'spring-app-server'
+          slot-name: 'Production'
+          package: '*.jar'
 
-      - name: Deploy to Azure Web
+
+
+          
