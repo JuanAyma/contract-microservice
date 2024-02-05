@@ -3,9 +3,9 @@ package com.bbva.contractmicroservice.mapper;
 import com.bbva.contractmicroservice.dto.ContractDTO;
 import com.bbva.contractmicroservice.entity.Contract;
 import org.mapstruct.Mapper;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface ContractMapper {
     ContractDTO toDto(Contract contract);
