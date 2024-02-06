@@ -61,6 +61,7 @@ public class ContractController {
             BigDecimal ganancia = contractDTO.getGanancia();
             BigDecimal totalRecibir = inversion.add(ganancia);
 
+
             // Crear el JSON de respuesta para apertura exitosa
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("status", "success");
